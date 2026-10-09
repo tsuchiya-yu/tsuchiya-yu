@@ -1,35 +1,35 @@
-<!-- 🐈‍⬛ CAT HERO BANNER -->
-<p align="center">
-  <!-- 横長バナーとして表示（画像はそのままでもOK） -->
-  <img
-    src="https://mypvypmyjcrxiovdejqj.supabase.co/storage/v1/object/public/github%20profile/IMG_5733%202.jpg"
-    alt="愛猫 つくし"
-    width="770"
-  />
-</p>
+# 自己紹介
 
-<!-- 自己紹介 2 行 -->
-<p align="center">
-  <samp>
-    🐈 ねこと暮らす Web エンジニア 🐈
-  </samp>
-  <br />
-  <samp>
-    Rails / Laravel / TypeScript
-  </samp>
-</p>
+Webサービスの開発や個人開発をしています。
 
-<p align="center">
-  <a href="https://github.com/tsuchiya-yu/github-readme-stats">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats-xi-ten-44.vercel.app/api?username=tsuchiya-yu&theme=dark&show_icons=true&rank_icon=github">
-      <img height=180 align="center"  src="https://github-readme-stats-xi-ten-44.vercel.app/api?username=tsuchiya-yu&show_icons=true&rank_icon=progress">
-    </picture>
-  </a>
-  <a href="https://github.com/tsuchiya-yu/convoychat">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats-xi-ten-44.vercel.app/api/top-langs/?username=tsuchiya-yu&theme=dark&layout=compact">
-      <img height=180 align="center" src="https://github-readme-stats-xi-ten-44.vercel.app/api/top-langs/?username=tsuchiya-yu&layout=compact">
-    </picture>
-  </a>
-</p>
+Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフル活用しながら開発しています。  
+ねこ様が好きで、最近はにゃんこにまつわるサービスを作ることが増えました。
+
+## 個人開発
+
+### 🐈 [ねこツールズ](https://cat-tools.catnote.tokyo)
+
+ねことの暮らしに役立つ、計算・チェック系のWebツールをまとめています。
+
+ねこの年齢、必要カロリー、ごはん量、必要給水量など、  
+飼い主さんが気になったときにすぐ使えるサービスを目指して開発しています。
+
+### 🐾 [ねこプロフィール](https://cat-link.catnote.tokyo)
+
+愛ねこのプロフィールページを簡単に作って共有できるWebサービスです。
+
+## 技術スタック
+
+`Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
+
+## つくしとの暮らし
+
+保護ねこの **つくし** と暮らしています 🐈  
+ねこ好きが高じて、**ねこ検定 上級**にも合格しました。  
+すっかりつくし中心の生活になっています。
+
+<img
+  src="https://mypvypmyjcrxiovdejqj.supabase.co/storage/v1/object/public/github%20profile/tsukushi-github-profile.webp"
+  alt="保護ねこのつくし"
+  width="360"
+/>
