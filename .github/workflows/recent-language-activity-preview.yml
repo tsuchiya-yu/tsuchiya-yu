@@ -1,4 +1,4 @@
-name: Generate recent language activity preview
+name: Generate language activity preview
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: recent-language-activity-preview
+  group: language-activity-preview
   cancel-in-progress: false
 
 jobs:
@@ -40,7 +40,6 @@ jobs:
         env:
           GH_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
           GH_USERNAME: ${{ github.repository_owner }}
-          PERIOD_DAYS: '180'
         run: node scripts/generate-language-activity.mjs
 
       - name: Publish changed cards
@@ -52,5 +51,6 @@ jobs:
           fi
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git commit -m "Update recent language activity"
-          git push
+          git commit -m "Update language activity"
+          git pull --rebase origin custom-language-activity-preview
+          git push origin HEAD:custom-language-activity-preview
