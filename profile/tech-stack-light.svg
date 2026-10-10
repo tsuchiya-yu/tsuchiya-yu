@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 577" width="640" height="577" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 579" width="640" height="579" role="img" aria-labelledby="title desc">
     <title id="title">個人開発で使ってきた技術</title>
     <desc id="desc">個人所有リポジトリの現在の構成から、技術ごとの採用リポジトリ数を集計したカードです。</desc>
-    <rect width="640" height="577" rx="16" fill="#FFF9F1"/>
-    <rect x="0.5" y="0.5" width="639" height="576" rx="15.5" fill="none" stroke="#E7D8C9"/>
+    <rect width="640" height="579" rx="16" fill="#FFF9F1"/>
+    <rect x="0.5" y="0.5" width="639" height="578" rx="15.5" fill="none" stroke="#E7D8C9"/>
     <text x="30" y="42" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="24" font-weight="700">使ってきた技術</text>
     <text x="30" y="68" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" font-weight="500">個人開発での採用リポジトリ数</text>
     <text x="610" y="42" fill="#8A7566" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="11" text-anchor="end">2026.10.10</text>
@@ -11,43 +11,39 @@
       <text x="30" y="130" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">React</text>
       <rect x="220" y="118" width="292" height="12" rx="6" fill="#EFE4D8"/>
       <rect x="220" y="118" width="292.0" height="12" rx="6" fill="#C9684C"/>
-      <text x="602" y="130" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">10件</text>
+      <text x="602" y="130" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">13件</text>
       <text x="30" y="169" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Tailwind CSS</text>
       <rect x="220" y="157" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="157" width="262.8" height="12" rx="6" fill="#C99545"/>
-      <text x="602" y="169" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">9件</text>
-      <text x="30" y="208" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Docker</text>
+      <rect x="220" y="157" width="247.1" height="12" rx="6" fill="#C99545"/>
+      <text x="602" y="169" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">11件</text>
+      <text x="30" y="208" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Next.js</text>
       <rect x="220" y="196" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="196" width="262.8" height="12" rx="6" fill="#89965F"/>
-      <text x="602" y="208" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">9件</text>
-      <text x="30" y="247" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Supabase</text>
+      <rect x="220" y="196" width="134.8" height="12" rx="6" fill="#89965F"/>
+      <text x="602" y="208" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">6件</text>
+      <text x="30" y="247" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Rails</text>
       <rect x="220" y="235" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="235" width="146.0" height="12" rx="6" fill="#B9776D"/>
-      <text x="602" y="247" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">5件</text>
-      <text x="30" y="286" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Next.js</text>
+      <rect x="220" y="235" width="67.4" height="12" rx="6" fill="#B9776D"/>
+      <text x="602" y="247" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">3件</text>
+      <text x="30" y="286" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Laravel</text>
       <rect x="220" y="274" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="274" width="116.8" height="12" rx="6" fill="#9F8875"/>
-      <text x="602" y="286" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">4件</text>
-      <text x="30" y="325" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Rails</text>
+      <rect x="220" y="274" width="44.9" height="12" rx="6" fill="#9F8875"/>
+      <text x="602" y="286" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2件</text>
+      <text x="30" y="325" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Inertia.js</text>
       <rect x="220" y="313" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="313" width="87.6" height="12" rx="6" fill="#7F9DB8"/>
-      <text x="602" y="325" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">3件</text>
-      <text x="30" y="364" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Laravel</text>
+      <rect x="220" y="313" width="44.9" height="12" rx="6" fill="#7F9DB8"/>
+      <text x="602" y="325" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2件</text>
+      <text x="30" y="364" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Svelte</text>
       <rect x="220" y="352" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="352" width="58.4" height="12" rx="6" fill="#94879E"/>
+      <rect x="220" y="352" width="44.9" height="12" rx="6" fill="#94879E"/>
       <text x="602" y="364" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2件</text>
-      <text x="30" y="403" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Inertia.js</text>
-      <rect x="220" y="391" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="391" width="58.4" height="12" rx="6" fill="#8F8068"/>
-      <text x="602" y="403" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2件</text>
-      <text x="30" y="442" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Cloudflare Workers</text>
-      <rect x="220" y="430" width="292" height="12" rx="6" fill="#EFE4D8"/>
-      <rect x="220" y="430" width="58.4" height="12" rx="6" fill="#8F8068"/>
-      <text x="602" y="442" fill="#3A302A" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2件</text>
     
-    <text x="30" y="482" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" font-weight="700">1件のみ</text>
-    <text x="30" y="506" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">Vue.js ・ Cloudflare D1 ・ PlayCanvas</text>
-    <line x1="30" y1="540" x2="610" y2="540" stroke="#E7D8C9"/>
-    <text x="30" y="561" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">公開・非公開の個人リポジトリを集計</text>
-    <text x="610" y="561" fill="#8A7566" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">17件を分析</text>
+    <text x="30" y="404" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" font-weight="700">1件のみ</text>
+    <text x="30" y="428" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">Vue.js ・ PlayCanvas ・ NestJS</text>
+    
+    <text x="30" y="462" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" font-weight="700">環境・サービス</text>
+    <text x="30" y="486" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">Docker 13件 ・ Supabase 6件 ・ Cloudflare Workers 2件</text>
+    <text x="30" y="508" fill="#3A302A" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">Cloudflare D1 1件</text>
+    <line x1="30" y1="542" x2="610" y2="542" stroke="#E7D8C9"/>
+    <text x="30" y="563" fill="#8A7566" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">公開・非公開の個人リポジトリを集計</text>
+    <text x="610" y="563" fill="#8A7566" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">24件を分析</text>
   </svg>
