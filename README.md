@@ -22,6 +22,13 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 
 `Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
 
+## GitHubでの活動
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./profile/signal-field-wide-dark.svg">
+  <img alt="GitHubでの活動" src="./profile/signal-field-wide-light.svg" width="640">
+</picture>
+
 ## つくしとの暮らし
 
 保護ねこの つくし と暮らしています 🐈  
