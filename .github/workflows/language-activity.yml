@@ -1,0 +1,58 @@
+name: Generate language activity
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/generate-language-activity.mjs
+      - .github/workflows/language-activity.yml
+  schedule:
+    - cron: "0 18 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: language-activity
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Check private repository token
+        id: token
+        env:
+          GH_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
+        shell: bash
+        run: |
+          if [ -n "$GH_STATS_TOKEN" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "PROFILE_STATS_TOKEN is not configured; keeping the current cards."
+          fi
+
+      - name: Generate language activity cards
+        if: steps.token.outputs.available == 'true'
+        env:
+          GH_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
+          GH_USERNAME: ${{ github.repository_owner }}
+        run: node scripts/generate-language-activity.mjs
+
+      - name: Publish changed cards
+        if: steps.token.outputs.available == 'true'
+        run: |
+          git add profile/recent-language-activity-*.svg
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "Update language activity"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"

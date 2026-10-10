@@ -22,6 +22,20 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 
 `Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
 
+## 開発言語
+
+GitHubに残っている最古の履歴から現在までの変更行数をもとに、開発言語の比率を集計しています。  
+public / private の個人リポジトリと各ブランチを対象にしています。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./profile/recent-language-activity-dark.svg">
+  <img
+    src="./profile/recent-language-activity-light.svg"
+    alt="最古の履歴から現在までの開発言語の比率"
+    width="640"
+  />
+</picture>
+
 ## つくしとの暮らし
 
 保護ねこの つくし と暮らしています 🐈  
