@@ -1,3 +1,4 @@
+// Triggered after configuring PROFILE_STATS_TOKEN.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
