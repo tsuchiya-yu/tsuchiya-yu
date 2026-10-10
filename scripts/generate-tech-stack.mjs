@@ -31,15 +31,22 @@ const technologyOrder = [
   'Vue.js',
   'Tailwind CSS',
   'Inertia.js',
-  'Supabase',
-  'Cloudflare Workers',
-  'Cloudflare D1',
   'PlayCanvas',
-  'Docker',
   'Express',
   'NestJS',
   'Svelte',
+  'Supabase',
+  'Cloudflare Workers',
+  'Cloudflare D1',
+  'Docker',
 ];
+
+const supportingTechnologies = new Set([
+  'Docker',
+  'Supabase',
+  'Cloudflare Workers',
+  'Cloudflare D1',
+]);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -78,11 +85,6 @@ async function paginate(apiPath) {
   }
 
   return results;
-}
-
-function isSampleLikeRepository(name) {
-  const lower = name.toLowerCase();
-  return lower.includes('sample') || /(^|[-_])(demo|tutorial|sandbox|playground)([-_]|$)/.test(lower);
 }
 
 function runGit(args, options = {}, { allowFailure = false } = {}) {
@@ -252,15 +254,15 @@ function sortTechnologies(entries) {
   });
 }
 
-function wrapOneOffs(names, maxLength = 54) {
+function wrapItems(items, maxLength = 54) {
   const lines = [];
   let current = '';
 
-  for (const name of names) {
-    const next = current ? `${current} ・ ${name}` : name;
+  for (const item of items) {
+    const next = current ? `${current} ・ ${item}` : item;
     if (current && next.length > maxLength) {
       lines.push(current);
-      current = name;
+      current = item;
     } else {
       current = next;
     }
@@ -282,9 +284,13 @@ function makeSvg(entries, meta, theme) {
         bars: ['#C9684C', '#C99545', '#89965F', '#B9776D', '#9F8875', '#7F9DB8', '#94879E', '#8F8068'],
       };
 
-  const multi = entries.filter(([, count]) => count >= 2);
-  const oneOffs = entries.filter(([, count]) => count === 1).map(([name]) => name);
-  const oneOffLines = wrapOneOffs(oneOffs);
+  const primaryEntries = entries.filter(([technology]) => !supportingTechnologies.has(technology));
+  const supportingEntries = entries.filter(([technology]) => supportingTechnologies.has(technology));
+
+  const multi = primaryEntries.filter(([, count]) => count >= 2);
+  const oneOffs = primaryEntries.filter(([, count]) => count === 1).map(([name]) => name);
+  const oneOffLines = wrapItems(oneOffs);
+  const supportingLines = wrapItems(supportingEntries.map(([name, count]) => `${name} ${count}件`));
   const maxCount = Math.max(1, ...multi.map(([, count]) => count));
 
   const width = 640;
@@ -293,12 +299,21 @@ function makeSvg(entries, meta, theme) {
   const rowStart = 126;
   const rowGap = 39;
   const multiEndY = multi.length > 0 ? rowStart + (multi.length - 1) * rowGap : rowStart - rowGap;
-  const oneOffHeaderY = oneOffLines.length > 0 ? multiEndY + 44 : null;
+
+  let cursorY = multiEndY + 44;
+  const oneOffHeaderY = oneOffLines.length > 0 ? cursorY : null;
   const oneOffStartY = oneOffHeaderY === null ? null : oneOffHeaderY + 24;
-  const contentEndY = oneOffStartY === null
-    ? multiEndY + 8
-    : oneOffStartY + Math.max(0, oneOffLines.length - 1) * 22;
-  const footerLineY = Math.max(184, contentEndY + 34);
+  if (oneOffLines.length > 0) {
+    cursorY = oneOffStartY + (oneOffLines.length - 1) * 22 + 34;
+  }
+
+  const supportingHeaderY = supportingLines.length > 0 ? cursorY : null;
+  const supportingStartY = supportingHeaderY === null ? null : supportingHeaderY + 24;
+  if (supportingLines.length > 0) {
+    cursorY = supportingStartY + (supportingLines.length - 1) * 22 + 34;
+  }
+
+  const footerLineY = Math.max(184, cursorY);
   const footerTextY = footerLineY + 21;
   const height = footerTextY + 16;
 
@@ -317,6 +332,10 @@ function makeSvg(entries, meta, theme) {
     <text x="30" y="${oneOffHeaderY}" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" font-weight="700">1件のみ</text>
     ${oneOffLines.map((line, index) => `<text x="30" y="${oneOffStartY + index * 22}" fill="${palette.text}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">${escapeXml(line)}</text>`).join('\n    ')}`;
 
+  const supportingMarkup = supportingLines.length === 0 ? '' : `
+    <text x="30" y="${supportingHeaderY}" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="11" font-weight="700">環境・サービス</text>
+    ${supportingLines.map((line, index) => `<text x="30" y="${supportingStartY + index * 22}" fill="${palette.text}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">${escapeXml(line)}</text>`).join('\n    ')}`;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="title desc">
     <title id="title">個人開発で使ってきた技術</title>
     <desc id="desc">個人所有リポジトリの現在の構成から、技術ごとの採用リポジトリ数を集計したカードです。</desc>
@@ -328,6 +347,7 @@ function makeSvg(entries, meta, theme) {
     <line x1="30" y1="91" x2="610" y2="91" stroke="${palette.border}"/>
     ${rowMarkup}
     ${oneOffMarkup}
+    ${supportingMarkup}
     <line x1="30" y1="${footerLineY}" x2="610" y2="${footerLineY}" stroke="${palette.border}"/>
     <text x="30" y="${footerTextY}" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">公開・非公開の個人リポジトリを集計</text>
     <text x="610" y="${footerTextY}" fill="${palette.muted}" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">${meta.repositories}件を分析</text>
@@ -335,9 +355,7 @@ function makeSvg(entries, meta, theme) {
 }
 
 const repos = await paginate('/user/repos?affiliation=owner&visibility=all&sort=updated&direction=desc');
-const candidateRepos = repos.filter((repo) => !repo.fork && !repo.is_template && repo.full_name !== repository);
-const targets = candidateRepos.filter((repo) => !isSampleLikeRepository(repo.name));
-const excludedCount = candidateRepos.length - targets.length;
+const targets = repos.filter((repo) => !repo.fork && !repo.is_template && repo.full_name !== repository);
 
 const counts = new Map();
 const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'profile-tech-stack-'));
@@ -389,7 +407,7 @@ console.log('Technology adoption counts:');
 for (const [technology, count] of entries) {
   console.log(`${technology}: ${count}`);
 }
-console.log(`Analyzed ${analyzedRepositories} repositories; excluded ${excludedCount} sample/demo/template repositories; skipped ${skippedRepositories}.`);
+console.log(`Analyzed ${analyzedRepositories} repositories; skipped ${skippedRepositories}.`);
 
 const meta = { repositories: analyzedRepositories };
 
