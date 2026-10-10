@@ -1,0 +1,46 @@
+name: Generate language stats preview
+
+on:
+  push:
+    branches:
+      - language-stats-preview
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: language-stats-preview
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: shinpr/github-profile-stats@49b5f7091182a45f3ef93923505b660c6da5f835 # v0.2.0
+        id: stats
+        with:
+          username: ${{ github.repository_owner }}
+          token: ${{ github.token }}
+          profile: language-composition
+      - name: Stage complete artifact set
+        env:
+          READY_DIR: ${{ steps.stats.outputs.ready-dir }}
+        run: |
+          mkdir -p profile
+          cp "$READY_DIR"/language-composition-*.svg profile/
+          test -s profile/language-composition-wide-light.svg
+          test -s profile/language-composition-wide-dark.svg
+          test -s profile/language-composition-compact-light.svg
+          test -s profile/language-composition-compact-dark.svg
+          git add profile/language-composition-*.svg
+      - name: Publish changed artifact set
+        run: |
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "Update language stats preview"
+          git push
