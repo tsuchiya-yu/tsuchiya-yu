@@ -22,6 +22,13 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 
 `Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
 
+### 公開リポジトリの言語構成
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./profile/language-composition-wide-dark.svg">
+  <img alt="公開リポジトリの言語構成" src="./profile/language-composition-wide-light.svg" width="640">
+</picture>
+
 ## つくしとの暮らし
 
 保護ねこの つくし と暮らしています 🐈  
