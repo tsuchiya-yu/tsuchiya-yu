@@ -1,18 +1,13 @@
-// Triggered after configuring PROFILE_STATS_TOKEN.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const token = process.env.GH_STATS_TOKEN;
 const username = process.env.GH_USERNAME;
 const repository = process.env.GITHUB_REPOSITORY;
-const periodDays = Number(process.env.PERIOD_DAYS || 180);
 
 if (!token) throw new Error('PROFILE_STATS_TOKEN is required.');
 if (!username) throw new Error('GH_USERNAME is required.');
-if (!Number.isFinite(periodDays) || periodDays < 1) throw new Error('PERIOD_DAYS must be a positive number.');
 
-const since = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
-const sinceIso = since.toISOString();
 const collectedAt = new Date();
 
 const headers = {
@@ -136,12 +131,12 @@ function makeSvg(rows, meta, theme) {
   }).join('');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-labelledby="title desc">
-    <title id="title">Recent language activity for ${escapeXml(username)}</title>
-    <desc id="desc">Past ${periodDays} days of changed lines across owned public and private repositories and all branches, deduplicated by commit.</desc>
+    <title id="title">Language activity history for ${escapeXml(username)}</title>
+    <desc id="desc">All-time changed lines across owned public and private repositories and all branches, deduplicated by commit.</desc>
     <rect width="${width}" height="${height}" rx="16" fill="${palette.bg}"/>
     <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="15.5" fill="none" stroke="${palette.border}"/>
-    <text x="30" y="42" fill="${palette.text}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="24" font-weight="700">最近の開発言語</text>
-    <text x="30" y="68" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" font-weight="500">過去${periodDays}日 · 変更行数ベース</text>
+    <text x="30" y="42" fill="${palette.text}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="24" font-weight="700">開発言語</text>
+    <text x="30" y="68" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" font-weight="500">最古〜現在 · 変更行数ベース</text>
     <text x="610" y="42" fill="${palette.muted}" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="11" text-anchor="end">${formatDate(collectedAt)}</text>
     <line x1="30" y1="91" x2="610" y2="91" stroke="${palette.border}"/>
     ${rowMarkup}
@@ -152,29 +147,29 @@ function makeSvg(rows, meta, theme) {
 }
 
 const repos = await paginate('/user/repos?affiliation=owner&visibility=all&sort=updated&direction=desc');
-const targets = repos.filter((repo) => !repo.fork && !repo.archived && repo.full_name !== repository);
+const targets = repos.filter((repo) => !repo.fork && repo.full_name !== repository);
 
 const uniqueCommits = new Map();
-let repositoriesWithRecentCommits = 0;
+let repositoriesWithCommits = 0;
 
 for (const repo of targets) {
   const branches = await paginate(`/repos/${encodeURIComponent(repo.owner.login)}/${encodeURIComponent(repo.name)}/branches`, { allowEmptyRepo: true });
-  let repoHasRecentCommits = false;
+  let repoHasCommits = false;
 
   for (const branch of branches) {
     const commits = await paginate(
-      `/repos/${encodeURIComponent(repo.owner.login)}/${encodeURIComponent(repo.name)}/commits?sha=${encodeURIComponent(branch.name)}&since=${encodeURIComponent(sinceIso)}&author=${encodeURIComponent(username)}`,
+      `/repos/${encodeURIComponent(repo.owner.login)}/${encodeURIComponent(repo.name)}/commits?sha=${encodeURIComponent(branch.name)}&author=${encodeURIComponent(username)}`,
       { allowEmptyRepo: true },
     );
 
     for (const commit of commits) {
       if ((commit.parents?.length ?? 0) > 1) continue;
       uniqueCommits.set(`${repo.id}:${commit.sha}`, { owner: repo.owner.login, repo: repo.name, sha: commit.sha });
-      repoHasRecentCommits = true;
+      repoHasCommits = true;
     }
   }
 
-  if (repoHasRecentCommits) repositoriesWithRecentCommits += 1;
+  if (repoHasCommits) repositoriesWithCommits += 1;
 }
 
 const totals = new Map();
@@ -202,7 +197,7 @@ await Promise.all(Array.from({ length: Math.min(8, Math.max(1, commitList.length
 
 const sorted = [...totals.entries()].sort((a, b) => b[1] - a[1]);
 const grandTotal = sorted.reduce((sum, [, value]) => sum + value, 0);
-if (grandTotal === 0) throw new Error('No language activity was found in the selected period.');
+if (grandTotal === 0) throw new Error('No language activity was found.');
 
 const top = sorted.slice(0, 4);
 const other = sorted.slice(4).reduce((sum, [, value]) => sum + value, 0);
@@ -217,7 +212,7 @@ const rows = top.map(([language, value]) => ({
 
 const meta = {
   commits: uniqueCommits.size,
-  repositories: repositoriesWithRecentCommits,
+  repositories: repositoriesWithCommits,
 };
 
 await fs.mkdir('profile', { recursive: true });
@@ -226,4 +221,4 @@ await Promise.all([
   fs.writeFile('profile/recent-language-activity-dark.svg', makeSvg(rows, meta, 'dark')),
 ]);
 
-console.log(`Generated language activity cards from ${meta.commits} deduplicated commits across ${meta.repositories} repositories.`);
+console.log(`Generated all-time language activity cards from ${meta.commits} deduplicated commits across ${meta.repositories} repositories.`);
