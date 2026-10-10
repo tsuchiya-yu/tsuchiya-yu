@@ -1,17 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" width="640" height="372" role="img" aria-labelledby="title desc">
-  <title id="title">最近の開発言語 プレビュー</title>
-  <desc id="desc">private repository token setup before real data generation</desc>
-  <rect width="640" height="372" rx="16" fill="#241E1A"/>
-  <rect x="0.5" y="0.5" width="639" height="371" rx="15.5" fill="none" stroke="#51443A"/>
-  <text x="30" y="42" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="24" font-weight="700">最近の開発言語</text>
-  <text x="30" y="68" fill="#BBA898" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12">過去180日 · 変更行数ベース</text>
-  <line x1="30" y1="91" x2="610" y2="91" stroke="#51443A"/>
-  <text x="30" y="144" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="16" font-weight="600">データ取得待ち</text>
-  <text x="30" y="171" fill="#BBA898" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="13">PROFILE_STATS_TOKEN を設定すると、実データのランキングに置き換わります。</text>
-  <rect x="30" y="208" width="420" height="12" rx="6" fill="#E07A5F"/>
-  <rect x="30" y="237" width="330" height="12" rx="6" fill="#DDA85D"/>
-  <rect x="30" y="266" width="240" height="12" rx="6" fill="#A3AD78"/>
-  <rect x="30" y="295" width="155" height="12" rx="6" fill="#C98B80"/>
-  <line x1="30" y1="335" x2="610" y2="335" stroke="#51443A"/>
-  <text x="30" y="356" fill="#BBA898" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">public + private · 全ブランチ · 重複コミット除外</text>
-</svg>
+    <title id="title">Recent language activity for tsuchiya-yu</title>
+    <desc id="desc">Past 180 days of changed lines across owned public and private repositories and all branches, deduplicated by commit.</desc>
+    <rect width="640" height="372" rx="16" fill="#241E1A"/>
+    <rect x="0.5" y="0.5" width="639" height="371" rx="15.5" fill="none" stroke="#51443A"/>
+    <text x="30" y="42" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="24" font-weight="700">最近の開発言語</text>
+    <text x="30" y="68" fill="#BBA898" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" font-weight="500">過去180日 · 変更行数ベース</text>
+    <text x="610" y="42" fill="#BBA898" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="11" text-anchor="end">2026.10.10</text>
+    <line x1="30" y1="91" x2="610" y2="91" stroke="#51443A"/>
+    
+      <text x="30" y="130" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">TypeScript</text>
+      <rect x="188" y="118" width="330" height="12" rx="6" fill="#3A312B"/>
+      <rect x="188" y="118" width="225.9" height="12" rx="6" fill="#E07A5F"/>
+      <text x="602" y="130" fill="#F5EBDD" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">68.5%</text>
+      <text x="30" y="173" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">JavaScript</text>
+      <rect x="188" y="161" width="330" height="12" rx="6" fill="#3A312B"/>
+      <rect x="188" y="161" width="78.8" height="12" rx="6" fill="#DDA85D"/>
+      <text x="602" y="173" fill="#F5EBDD" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">23.9%</text>
+      <text x="30" y="216" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">CSS</text>
+      <rect x="188" y="204" width="330" height="12" rx="6" fill="#3A312B"/>
+      <rect x="188" y="204" width="10.5" height="12" rx="6" fill="#A3AD78"/>
+      <text x="602" y="216" fill="#F5EBDD" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">3.2%</text>
+      <text x="30" y="259" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">SQL</text>
+      <rect x="188" y="247" width="330" height="12" rx="6" fill="#3A312B"/>
+      <rect x="188" y="247" width="9.6" height="12" rx="6" fill="#C98B80"/>
+      <text x="602" y="259" fill="#F5EBDD" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">2.9%</text>
+      <text x="30" y="302" fill="#F5EBDD" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="15" font-weight="600">Other</text>
+      <rect x="188" y="290" width="330" height="12" rx="6" fill="#3A312B"/>
+      <rect x="188" y="290" width="5.1" height="12" rx="6" fill="#B49A86"/>
+      <text x="602" y="302" fill="#F5EBDD" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="13" font-weight="700" text-anchor="end">1.6%</text>
+    <line x1="30" y1="335" x2="610" y2="335" stroke="#51443A"/>
+    <text x="30" y="356" fill="#BBA898" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">public + private · 全ブランチ · 重複コミット除外</text>
+    <text x="610" y="356" fill="#BBA898" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">399 commits / 6 repos</text>
+  </svg>
