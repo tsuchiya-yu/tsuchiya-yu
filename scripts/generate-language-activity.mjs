@@ -119,24 +119,63 @@ function formatDate(date) {
   return `${y}.${m}.${d}`;
 }
 
+function buildDisplayRows(sorted, grandTotal) {
+  const maxVisibleLanguages = 6;
+  const entries = sorted.map(([language, value]) => ({ language, value }));
+  const phpIndex = entries.findIndex((entry) => entry.language === 'PHP');
+
+  let selected;
+  if (phpIndex === -1 || phpIndex < maxVisibleLanguages) {
+    selected = entries.slice(0, maxVisibleLanguages);
+  } else {
+    selected = [...entries.slice(0, maxVisibleLanguages - 1), entries[phpIndex]]
+      .sort((a, b) => b.value - a.value);
+  }
+
+  const selectedLanguages = new Set(selected.map((entry) => entry.language));
+  const otherValue = entries
+    .filter((entry) => !selectedLanguages.has(entry.language))
+    .reduce((sum, entry) => sum + entry.value, 0);
+
+  const rows = selected.map((entry) => ({
+    language: entry.language,
+    value: entry.value,
+    ratio: entry.value / grandTotal,
+    percent: (entry.value / grandTotal) * 100,
+  }));
+
+  if (otherValue > 0) {
+    rows.push({
+      language: 'Other',
+      value: otherValue,
+      ratio: otherValue / grandTotal,
+      percent: (otherValue / grandTotal) * 100,
+    });
+  }
+
+  return rows;
+}
+
 function makeSvg(rows, meta, theme) {
   const dark = theme === 'dark';
   const palette = dark
     ? {
         bg: '#241E1A', border: '#51443A', text: '#F5EBDD', muted: '#BBA898', track: '#3A312B',
-        bars: ['#E07A5F', '#DDA85D', '#A3AD78', '#C98B80', '#B49A86'],
+        bars: ['#E07A5F', '#DDA85D', '#A3AD78', '#C98B80', '#B49A86', '#8FA7BD', '#A395AA'],
       }
     : {
         bg: '#FFF9F1', border: '#E7D8C9', text: '#3A302A', muted: '#8A7566', track: '#EFE4D8',
-        bars: ['#C9684C', '#C99545', '#89965F', '#B9776D', '#9F8875'],
+        bars: ['#C9684C', '#C99545', '#89965F', '#B9776D', '#9F8875', '#7F9DB8', '#94879E'],
       };
 
   const width = 640;
-  const height = 372;
   const barX = 188;
   const barWidth = 330;
   const rowStart = 126;
   const rowGap = 43;
+  const footerLineY = rowStart + (rows.length - 1) * rowGap + 37;
+  const footerTextY = footerLineY + 21;
+  const height = footerTextY + 16;
 
   const rowMarkup = rows.map((row, index) => {
     const y = rowStart + index * rowGap;
@@ -159,9 +198,9 @@ function makeSvg(rows, meta, theme) {
     <text x="610" y="42" fill="${palette.muted}" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="11" text-anchor="end">${formatDate(collectedAt)}</text>
     <line x1="30" y1="91" x2="610" y2="91" stroke="${palette.border}"/>
     ${rowMarkup}
-    <line x1="30" y1="335" x2="610" y2="335" stroke="${palette.border}"/>
-    <text x="30" y="356" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">public + private · 全ブランチ · 重複コミット除外</text>
-    <text x="610" y="356" fill="${palette.muted}" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">${meta.commits} commits / ${meta.repositories} repos</text>
+    <line x1="30" y1="${footerLineY}" x2="610" y2="${footerLineY}" stroke="${palette.border}"/>
+    <text x="30" y="${footerTextY}" fill="${palette.muted}" font-family="ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="10">public + private · 全ブランチ · 重複コミット除外</text>
+    <text x="610" y="${footerTextY}" fill="${palette.muted}" font-family="ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace" font-size="10" text-anchor="end">${meta.commits} commits / ${meta.repositories} repos</text>
   </svg>`;
 }
 
@@ -261,16 +300,12 @@ const sorted = [...totals.entries()].sort((a, b) => b[1] - a[1]);
 const grandTotal = sorted.reduce((sum, [, value]) => sum + value, 0);
 if (grandTotal === 0) throw new Error('No language activity was found.');
 
-const top = sorted.slice(0, 4);
-const other = sorted.slice(4).reduce((sum, [, value]) => sum + value, 0);
-if (other > 0) top.push(['Other', other]);
+console.log('Language ranking:');
+for (const [index, [language, value]] of sorted.entries()) {
+  console.log(`${index + 1}. ${language}: ${((value / grandTotal) * 100).toFixed(2)}%`);
+}
 
-const rows = top.map(([language, value]) => ({
-  language,
-  value,
-  ratio: value / grandTotal,
-  percent: (value / grandTotal) * 100,
-}));
+const rows = buildDisplayRows(sorted, grandTotal);
 
 const meta = {
   commits: uniqueCommitCount,
