@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 const token = process.env.GH_STATS_TOKEN;
 const username = process.env.GH_USERNAME;
@@ -17,13 +19,29 @@ const headers = {
   'User-Agent': 'profile-language-activity',
 };
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function requestJson(apiPath, { allowEmptyRepo = false } = {}) {
-  const response = await fetch(`https://api.github.com${apiPath}`, { headers });
-  if (allowEmptyRepo && response.status === 409) return [];
-  if (!response.ok) {
-    throw new Error(`GitHub API request failed with status ${response.status}.`);
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const response = await fetch(`https://api.github.com${apiPath}`, { headers });
+    if (allowEmptyRepo && response.status === 409) return [];
+    if (response.ok) return response.json();
+
+    if ((response.status === 403 || response.status === 429) && attempt < 3) {
+      const retryAfter = Number(response.headers.get('retry-after') || 0);
+      const waitMs = retryAfter > 0 && retryAfter <= 60
+        ? retryAfter * 1000
+        : Math.min(15000, 1500 * (2 ** attempt));
+      await sleep(waitMs);
+      continue;
+    }
+
+    const remaining = response.headers.get('x-ratelimit-remaining');
+    const reset = response.headers.get('x-ratelimit-reset');
+    throw new Error(`GitHub API request failed with status ${response.status}; remaining=${remaining ?? 'unknown'}; reset=${reset ?? 'unknown'}.`);
   }
-  return response.json();
+
+  throw new Error('GitHub API request failed after retries.');
 }
 
 async function paginate(apiPath, options = {}) {
@@ -34,6 +52,7 @@ async function paginate(apiPath, options = {}) {
     if (!Array.isArray(batch)) throw new Error('Unexpected GitHub API response.');
     results.push(...batch);
     if (batch.length < 100) break;
+    await sleep(40);
   }
   return results;
 }
@@ -146,15 +165,27 @@ function makeSvg(rows, meta, theme) {
   </svg>`;
 }
 
+function runGit(args, options = {}) {
+  const result = spawnSync('git', args, {
+    encoding: 'utf8',
+    maxBuffer: 128 * 1024 * 1024,
+    ...options,
+  });
+  if (result.status !== 0) {
+    throw new Error(`git command failed with exit code ${result.status}.`);
+  }
+  return result.stdout ?? '';
+}
+
 const repos = await paginate('/user/repos?affiliation=owner&visibility=all&sort=updated&direction=desc');
 const targets = repos.filter((repo) => !repo.fork && repo.full_name !== repository);
 
-const uniqueCommits = new Map();
-let repositoriesWithCommits = 0;
+const commitsByRepo = new Map();
+let uniqueCommitCount = 0;
 
 for (const repo of targets) {
   const branches = await paginate(`/repos/${encodeURIComponent(repo.owner.login)}/${encodeURIComponent(repo.name)}/branches`, { allowEmptyRepo: true });
-  let repoHasCommits = false;
+  const shas = new Set();
 
   for (const branch of branches) {
     const commits = await paginate(
@@ -164,36 +195,67 @@ for (const repo of targets) {
 
     for (const commit of commits) {
       if ((commit.parents?.length ?? 0) > 1) continue;
-      uniqueCommits.set(`${repo.id}:${commit.sha}`, { owner: repo.owner.login, repo: repo.name, sha: commit.sha });
-      repoHasCommits = true;
+      shas.add(commit.sha);
     }
   }
 
-  if (repoHasCommits) repositoriesWithCommits += 1;
+  if (shas.size > 0) {
+    commitsByRepo.set(repo.full_name, { repo, shas });
+    uniqueCommitCount += shas.size;
+  }
 }
 
 const totals = new Map();
-const commitList = [...uniqueCommits.values()];
-let cursor = 0;
+const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'profile-language-'));
+const basicAuth = Buffer.from(`x-access-token:${token}`).toString('base64');
+const gitEnv = {
+  ...process.env,
+  GIT_TERMINAL_PROMPT: '0',
+  GIT_CONFIG_COUNT: '1',
+  GIT_CONFIG_KEY_0: 'http.https://github.com/.extraheader',
+  GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${basicAuth}`,
+};
 
-async function worker() {
-  while (cursor < commitList.length) {
-    const index = cursor++;
-    const item = commitList[index];
-    const detail = await requestJson(`/repos/${encodeURIComponent(item.owner)}/${encodeURIComponent(item.repo)}/commits/${item.sha}?per_page=100`);
-    const files = detail.files ?? [];
+try {
+  let repoIndex = 0;
+  for (const { repo, shas } of commitsByRepo.values()) {
+    repoIndex += 1;
+    const repoDir = path.join(tempRoot, `repo-${repoIndex}`);
+    runGit(['clone', '--mirror', '--quiet', repo.clone_url, repoDir], { env: gitEnv });
 
-    for (const file of files) {
-      const language = languageForFile(file.filename);
+    const log = runGit([
+      '-C', repoDir,
+      'log', '--all', '--no-merges', '--no-renames', '--numstat', '--format=@@COMMIT:%H',
+    ]);
+
+    let include = false;
+    for (const line of log.split('\n')) {
+      if (line.startsWith('@@COMMIT:')) {
+        include = shas.has(line.slice('@@COMMIT:'.length).trim());
+        continue;
+      }
+      if (!include || !line) continue;
+
+      const parts = line.split('\t');
+      if (parts.length < 3) continue;
+      const additions = Number(parts[0]);
+      const deletions = Number(parts[1]);
+      if (!Number.isFinite(additions) || !Number.isFinite(deletions)) continue;
+
+      const filename = parts.slice(2).join('\t');
+      const language = languageForFile(filename);
       if (!language) continue;
-      const changes = Number(file.changes ?? ((file.additions ?? 0) + (file.deletions ?? 0)));
-      if (!Number.isFinite(changes) || changes <= 0) continue;
+
+      const changes = additions + deletions;
+      if (changes <= 0) continue;
       totals.set(language, (totals.get(language) ?? 0) + changes);
     }
-  }
-}
 
-await Promise.all(Array.from({ length: Math.min(8, Math.max(1, commitList.length)) }, () => worker()));
+    await fs.rm(repoDir, { recursive: true, force: true });
+  }
+} finally {
+  await fs.rm(tempRoot, { recursive: true, force: true });
+}
 
 const sorted = [...totals.entries()].sort((a, b) => b[1] - a[1]);
 const grandTotal = sorted.reduce((sum, [, value]) => sum + value, 0);
@@ -211,8 +273,8 @@ const rows = top.map(([language, value]) => ({
 }));
 
 const meta = {
-  commits: uniqueCommits.size,
-  repositories: repositoriesWithCommits,
+  commits: uniqueCommitCount,
+  repositories: commitsByRepo.size,
 };
 
 await fs.mkdir('profile', { recursive: true });
