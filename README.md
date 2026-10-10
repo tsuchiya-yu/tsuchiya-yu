@@ -22,16 +22,14 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 
 `Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
 
-## 開発言語
-
-GitHubに残っている最古の履歴から現在までの変更行数をもとに、開発言語の比率を集計しています。  
-public / private の個人リポジトリと各ブランチを対象にしています。
+個人開発で実際に採用した技術を、使ったリポジトリ数でまとめています。  
+1つのリポジトリで複数の技術を使っている場合は、それぞれ1件として数えています。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./profile/recent-language-activity-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./profile/tech-stack-dark.svg">
   <img
-    src="./profile/recent-language-activity-light.svg"
-    alt="最古の履歴から現在までの開発言語の比率"
+    src="./profile/tech-stack-light.svg"
+    alt="個人開発で使ってきた技術と採用リポジトリ数"
     width="640"
   />
 </picture>
