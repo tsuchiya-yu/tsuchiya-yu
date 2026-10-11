@@ -23,9 +23,9 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 Rails / Laravelを使ったバックエンド開発から、React / Next.js / Vue.jsを使ったフロントエンドまで、Webサービスを幅広く開発してきました。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./profile/tech-stack-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/tsuchiya-yu/tsuchiya-yu/tech-stack-data/profile/tech-stack-dark.svg">
   <img
-    src="./profile/tech-stack-light.svg"
+    src="https://raw.githubusercontent.com/tsuchiya-yu/tsuchiya-yu/tech-stack-data/profile/tech-stack-light.svg"
     alt="個人開発で使ってきた技術と採用リポジトリ数"
     width="640"
   />
