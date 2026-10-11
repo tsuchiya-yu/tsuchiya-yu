@@ -45,13 +45,23 @@ jobs:
 
       - name: Publish changed cards
         if: steps.token.outputs.available == 'true'
+        shell: bash
         run: |
+          output_dir="$RUNNER_TEMP/tech-stack"
+          mkdir -p "$output_dir"
+          cp profile/tech-stack-*.svg "$output_dir/"
+
+          git fetch origin tech-stack-data
+          git checkout -B tech-stack-data origin/tech-stack-data
+          cp "$output_dir"/tech-stack-*.svg profile/
           git add profile/tech-stack-*.svg
+
           if git diff --cached --quiet; then
             exit 0
           fi
+
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git commit -m "Update technology adoption"
-          git pull --rebase origin "$GITHUB_REF_NAME"
-          git push origin "HEAD:$GITHUB_REF_NAME"
+          git pull --rebase origin tech-stack-data
+          git push origin HEAD:tech-stack-data
