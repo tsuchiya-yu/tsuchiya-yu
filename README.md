@@ -20,10 +20,7 @@ Ruby / Laravelを中心に、Vue.js・React・Next.jsなども使い、AIをフ�
 
 ## 技術スタック
 
-`Ruby` / `Laravel` / `Vue.js` / `React` / `Next.js` / `etc.`
-
-個人開発で実際に採用した技術を、使ったリポジトリ数でまとめています。  
-1つのリポジトリで複数の技術を使っている場合は、それぞれ1件として数えています。
+Rails / Laravelを使ったバックエンド開発から、React / Next.js / Vue.jsを使ったフロントエンドまで、Webサービスを幅広く開発してきました。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./profile/tech-stack-dark.svg">
