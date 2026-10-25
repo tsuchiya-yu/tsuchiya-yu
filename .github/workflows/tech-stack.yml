@@ -51,6 +51,9 @@ jobs:
           mkdir -p "$output_dir"
           cp profile/tech-stack-*.svg "$output_dir/"
 
+          # Keep generated cards in RUNNER_TEMP and clear working-tree changes before switching branches.
+          git restore --worktree -- profile/tech-stack-*.svg
+
           git fetch origin tech-stack-data
           git checkout -B tech-stack-data origin/tech-stack-data
           cp "$output_dir"/tech-stack-*.svg profile/
